@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "485240405478",
+    "project_id": "farecheck-d7781",
+    "storage_bucket": "farecheck-d7781.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485240405478:android:da188567ee4dd948232a27",
+        "android_client_info": {
+          "package_name": "com.farecheck.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmHPlGbVvcf9Ok97pmk4D-UQzLzyttAMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

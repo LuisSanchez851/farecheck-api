@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────
+// CONDUCTORES
+// ─────────────────────────────────────────
+model Conductor {
+  id                    String   @id @default(uuid())
+  firebase_uid          String   @unique
+  auth_provider         String   // "google" | "phone"
+  nombre                String
+  email                 String?
+  telefono              String?
+  foto_url              String?
+
+  placa_vehiculo        String?
+  marca_vehiculo        String?
+  modelo_vehiculo       String?
+  anio_vehiculo         Int?
+
+  // Umbrales del semáforo (COP/km) — se leen en cada análisis
+  umbral_verde_copkm    Float    @default(1500)
+  umbral_amarillo_copkm Float    @default(900)
+
+  creado_en             DateTime @default(now())
+  actualizado_en        DateTime @updatedAt
+
+  suscripciones         Suscripcion[]
+  turnos                Turno[]
+  contactos_emergencia  ContactoEmergencia[]
+
+  @@map("conductores")
+}
+
+// ─────────────────────────────────────────
+// SUSCRIPCIONES
+// ─────────────────────────────────────────
+model Suscripcion {
+  id                     String            @id @default(uuid())
+  conductor_id           String
+  conductor              Conductor         @relation(fields: [conductor_id], references: [id])
+
+  plan                   Plan
+  estado                 EstadoSuscripcion
+
+  inicio                 DateTime
+  fin                    DateTime
+
+  stripe_customer_id     String?
+  stripe_subscription_id String?
+  stripe_price_id        String?
+
+  creado_en              DateTime @default(now())
+  actualizado_en         DateTime @updatedAt
+
+  @@map("suscripciones")
+}
+
+enum Plan {
+  TRIAL
+  MENSUAL
+  ANUAL
+}
+
+enum EstadoSuscripcion {
+  ACTIVA
+  EXPIRADA
+  CANCELADA
+}
+
+// ─────────────────────────────────────────
+// PLATAFORMAS (catálogo fijo)
+// ─────────────────────────────────────────
+model Plataforma {
+  id              String  @id @default(uuid())
+  nombre          String  @unique
+  package_android String?
+  bundle_ios      String?
+  icono_url       String?
+  activa          Boolean @default(true)
+
+  viajes          Viaje[]
+
+  @@map("plataformas")
+}
+
+// ─────────────────────────────────────────
+// TURNOS
+// ─────────────────────────────────────────
+model Turno {
+  id                String      @id @default(uuid())
+  conductor_id      String
+  conductor         Conductor   @relation(fields: [conductor_id], references: [id])
+
+  inicio            DateTime
+  fin               DateTime?
+  estado            EstadoTurno @default(ACTIVO)
+
+  total_viajes      Int         @default(0)
+  viajes_aceptados  Int         @default(0)
+  viajes_rechazados Int         @default(0)
+  ingreso_total_cop Float       @default(0)
+  km_totales        Float       @default(0)
+  tiempo_activo_min Int         @default(0)
+  tiempo_pausa_min  Int         @default(0)
+
+  creado_en         DateTime    @default(now())
+  actualizado_en    DateTime    @updatedAt
+
+  viajes            Viaje[]
+  pausas            Pausa[]
+
+  @@map("turnos")
+}
+
+enum EstadoTurno {
+  ACTIVO
+  PAUSADO
+  FINALIZADO
+}
+
+// ─────────────────────────────────────────
+// PAUSAS
+// ─────────────────────────────────────────
+model Pausa {
+  id       String    @id @default(uuid())
+  turno_id String
+  turno    Turno     @relation(fields: [turno_id], references: [id])
+  inicio   DateTime
+  fin      DateTime?
+
+  @@map("pausas")
+}
+
+// ─────────────────────────────────────────
+// VIAJES — tabla central
+// ─────────────────────────────────────────
+model Viaje {
+  id            String     @id @default(uuid())
+  turno_id      String
+  turno         Turno      @relation(fields: [turno_id], references: [id])
+  plataforma_id String
+  plataforma    Plataforma @relation(fields: [plataforma_id], references: [id])
+
+  registrado_en DateTime   @default(now())
+
+  valor_cop           Float
+  km_recogida         Float
+  km_recorrido        Float
+  tiempo_recogida_min Int
+  tiempo_total_min    Int
+
+  calificacion_pasajero Float?
+  viajes_pasajero       Int?
+
+  km_total             Float
+  valor_copkm          Float
+  semaforo             Semaforo
+  porcentaje_vs_umbral Int
+
+  // null = no registró decisión, true = aceptó, false = rechazó
+  aceptado Boolean?
+
+  @@map("viajes")
+}
+
+enum Semaforo {
+  VERDE
+  AMARILLO
+  ROJO
+}
+
+// ─────────────────────────────────────────
+// CONTACTOS DE EMERGENCIA (datos para V2)
+// ─────────────────────────────────────────
+model ContactoEmergencia {
+  id           String    @id @default(uuid())
+  conductor_id String
+  conductor    Conductor @relation(fields: [conductor_id], references: [id])
+  nombre       String
+  telefono     String
+  relacion     String
+  orden        Int
+
+  creado_en    DateTime  @default(now())
+
+  @@map("contactos_emergencia")
+}
