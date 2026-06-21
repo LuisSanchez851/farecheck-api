@@ -12,6 +12,7 @@ import analisisRoutes   from './routes/analisis.routes';
 import balanceRoutes    from './routes/balance.routes';
 import suscripcionRoutes from './routes/suscripcion.routes';
 
+import { crearConductor }        from './controllers/conductor.controller';
 import { authMiddleware }        from './middleware/auth.middleware';
 import { suscripcionMiddleware } from './middleware/suscripcion.middleware';
 import { logger }                from './utils/logger';
@@ -50,11 +51,22 @@ app.use(express.urlencoded({ extended: true }));
 
 // ── Health check ───────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString(), version: '1.0.0' });
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    // Railway inyecta estas vars automáticamente — permiten verificar QUÉ commit está vivo.
+    commit: process.env.RAILWAY_GIT_COMMIT_SHA ?? 'local',
+    branch: process.env.RAILWAY_GIT_BRANCH ?? 'local',
+  });
 });
 
 // ── Rutas PÚBLICAS (sin JWT) ───────────────────────────────────────────────────
 app.use('/api/v1/auth', authRoutes);
+
+// Registro de conductor nuevo: público porque aún no existe en BD (el authMiddleware
+// lo rechazaría con conductor_no_encontrado). El uid se deriva del token verificado.
+app.post('/api/v1/conductor/crear', crearConductor);
 
 // Stripe webhook requiere body crudo para verificar firma — sin JWT
 app.post(

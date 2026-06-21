@@ -12,7 +12,20 @@
           "package_name": "com.farecheck.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "485240405478-ukq2b3k44clef9p2s4ii88vmttfktnue.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farecheck.app",
+            "certificate_hash": "6cb45c5b9b3f1fafac2f7bfeaf92dc6273c0d8db"
+          }
+        },
+        {
+          "client_id": "485240405478-joifiq7mk675cq30rq26v52gks623ig2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCmHPlGbVvcf9Ok97pmk4D-UQzLzyttAMs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485240405478-isdnh08deo1m98fchlotesjg0dhfe4og.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

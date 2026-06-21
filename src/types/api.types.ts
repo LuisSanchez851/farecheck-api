@@ -80,6 +80,7 @@ export const API_ERRORS = {
   CONDUCTOR_NO_ENCONTRADO:  'conductor_no_encontrado',
   TURNO_NO_ENCONTRADO:      'turno_no_encontrado',
   TURNO_NO_ACTIVO:          'turno_no_activo',
+  VIAJE_NO_ENCONTRADO:      'viaje_no_encontrado',
   TURNO_YA_ACTIVO:          'turno_ya_activo',
   TOKEN_INVALIDO:           'token_invalido',
   TOKEN_EXPIRADO:           'token_expirado',

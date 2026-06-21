@@ -13,6 +13,13 @@ declare global {
   }
 }
 
+// Bypass de desarrollo: cuando NO es producción y AUTH_DEV_BYPASS=true, el Bearer
+// token se trata directamente como el firebase_uid (igual que el mock de tests),
+// permitiendo correr la app en local contra los conductores sembrados sin Firebase.
+// NUNCA se activa en producción aunque la variable esté presente.
+const DEV_BYPASS =
+  process.env.NODE_ENV !== 'production' && process.env.AUTH_DEV_BYPASS === 'true';
+
 export async function authMiddleware(
   req: Request,
   res: Response,
@@ -30,8 +37,9 @@ export async function authMiddleware(
     }
 
     const token = authHeader.split('Bearer ')[1];
-    const decoded = await admin.auth().verifyIdToken(token);
-    const firebase_uid = decoded.uid;
+    const firebase_uid = DEV_BYPASS
+      ? token // dev: el Bearer token ES el uid
+      : (await admin.auth().verifyIdToken(token)).uid;
 
     const conductor = await prisma.conductor.findUnique({
       where: { firebase_uid },
