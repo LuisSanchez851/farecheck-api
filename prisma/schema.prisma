@@ -85,7 +85,7 @@ model Plataforma {
   icono_url       String?
   activa          Boolean @default(true)
 
-  viajes          Viaje[]
+  viajes          Servicio[]
 
   @@map("plataformas")
 }
@@ -113,7 +113,7 @@ model Turno {
   creado_en         DateTime    @default(now())
   actualizado_en    DateTime    @updatedAt
 
-  viajes            Viaje[]
+  viajes            Servicio[]
   pausas            Pausa[]
 
   @@map("turnos")
@@ -139,9 +139,9 @@ model Pausa {
 }
 
 // ─────────────────────────────────────────
-// VIAJES — tabla central
+// SERVICIOS — ofertas de viaje evaluadas
 // ─────────────────────────────────────────
-model Viaje {
+model Servicio {
   id            String     @id @default(uuid())
   turno_id      String
   turno         Turno      @relation(fields: [turno_id], references: [id])
@@ -167,7 +167,7 @@ model Viaje {
   // null = no registró decisión, true = aceptó, false = rechazó
   aceptado Boolean?
 
-  @@map("viajes")
+  @@map("servicios")
 }
 
 enum Semaforo {
