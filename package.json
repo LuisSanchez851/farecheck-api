@@ -13,6 +13,7 @@
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force",
     "seed": "ts-node tests/seed.smoke.ts",
+    "test": "jest",
     "test:smoke": "jest --runInBand --forceExit"
   },
   "prisma": {

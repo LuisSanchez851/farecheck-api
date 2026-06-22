@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1782144536162" clover="3.2.0">
+  <project timestamp="1782144536162" name="All files">
+    <metrics statements="22" coveredstatements="22" conditionals="12" coveredconditionals="12" methods="1" coveredmethods="1" elements="35" coveredelements="35" complexity="0" loc="22" ncloc="22" packages="1" files="1" classes="1"/>
+    <file name="rentabilidad.service.ts" path="C:\Users\alexs\Documents\Proyectos\ME\FareCheck\farecheck-api\src\services\rentabilidad.service.ts">
+      <metrics statements="22" coveredstatements="22" conditionals="12" coveredconditionals="12" methods="1" coveredmethods="1"/>
+      <line num="21" count="1" type="stmt"/>
+      <line num="38" count="23" type="cond" truecount="2" falsecount="0"/>
+      <line num="39" count="2" type="stmt"/>
+      <line num="42" count="21" type="cond" truecount="2" falsecount="0"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="46" count="20" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="50" count="19" type="cond" truecount="2" falsecount="0"/>
+      <line num="51" count="1" type="stmt"/>
+      <line num="56" count="18" type="stmt"/>
+      <line num="64" count="18" type="cond" truecount="2" falsecount="0"/>
+      <line num="66" count="7" type="stmt"/>
+      <line num="67" count="7" type="stmt"/>
+      <line num="70" count="7" type="stmt"/>
+      <line num="71" count="11" type="cond" truecount="2" falsecount="0"/>
+      <line num="73" count="5" type="stmt"/>
+      <line num="74" count="5" type="stmt"/>
+      <line num="77" count="5" type="stmt"/>
+      <line num="80" count="6" type="stmt"/>
+      <line num="81" count="6" type="stmt"/>
+      <line num="84" count="6" type="stmt"/>
+      <line num="87" count="18" type="stmt"/>
+    </file>
+  </project>
+</coverage>
