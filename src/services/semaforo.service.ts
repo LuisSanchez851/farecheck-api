@@ -43,8 +43,8 @@ export async function analizarServicio(
     ((valor_copkm - umbral_verde_copkm) / umbral_verde_copkm) * 100,
   );
 
-  // 5. Persistir viaje (aceptado = null hasta que el conductor confirme)
-  const viaje = await prisma.viaje.create({
+  // 5. Persistir servicio (aceptado = null hasta que el conductor confirme)
+  const viaje = await prisma.servicio.create({
     data: {
       turno_id:             input.turno_id,
       plataforma_id:        input.plataforma_id,

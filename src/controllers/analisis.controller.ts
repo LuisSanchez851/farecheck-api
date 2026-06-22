@@ -103,7 +103,7 @@ export async function registrarDecision(req: Request, res: Response): Promise<vo
     const { decision } = decisionSchema.parse(req.body);
 
     // El viaje debe pertenecer al conductor autenticado (a través de su turno).
-    const viaje = await prisma.viaje.findFirst({
+    const viaje = await prisma.servicio.findFirst({
       where: { id: viajeId, turno: { conductor_id: req.conductor_id } },
       select: { id: true, semaforo: true },
     });
@@ -117,7 +117,7 @@ export async function registrarDecision(req: Request, res: Response): Promise<vo
     }
 
     const aceptado = decision === 'aceptado';
-    await prisma.viaje.update({ where: { id: viaje.id }, data: { aceptado } });
+    await prisma.servicio.update({ where: { id: viaje.id }, data: { aceptado } });
 
     res.json({
       viaje_id: viaje.id,

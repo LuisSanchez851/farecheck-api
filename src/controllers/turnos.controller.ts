@@ -188,13 +188,13 @@ export async function finalizarTurno(req: Request, res: Response): Promise<void>
 
       // Ingreso y km reales provienen solo de los viajes aceptados (los rechazados
       // nunca se recorrieron). Los conteos sí cubren todos los viajes analizados.
-      const agg = await tx.viaje.aggregate({
+      const agg = await tx.servicio.aggregate({
         where: { turno_id: id, aceptado: true },
         _sum: { valor_cop: true, km_recorrido: true },
       });
-      const totalViajes = await tx.viaje.count({ where: { turno_id: id } });
-      const aceptados = await tx.viaje.count({ where: { turno_id: id, aceptado: true } });
-      const rechazados = await tx.viaje.count({ where: { turno_id: id, aceptado: false } });
+      const totalViajes = await tx.servicio.count({ where: { turno_id: id } });
+      const aceptados = await tx.servicio.count({ where: { turno_id: id, aceptado: true } });
+      const rechazados = await tx.servicio.count({ where: { turno_id: id, aceptado: false } });
 
       return tx.turno.update({
         where: { id },
@@ -246,13 +246,13 @@ export async function getTurnoActivo(req: Request, res: Response): Promise<void>
       return;
     }
 
-    const agg = await prisma.viaje.aggregate({
+    const agg = await prisma.servicio.aggregate({
       where: { turno_id: turno.id, aceptado: true },
       _sum: { valor_cop: true, km_recorrido: true },
     });
-    const totalViajes = await prisma.viaje.count({ where: { turno_id: turno.id } });
-    const aceptados = await prisma.viaje.count({ where: { turno_id: turno.id, aceptado: true } });
-    const rechazados = await prisma.viaje.count({ where: { turno_id: turno.id, aceptado: false } });
+    const totalViajes = await prisma.servicio.count({ where: { turno_id: turno.id } });
+    const aceptados = await prisma.servicio.count({ where: { turno_id: turno.id, aceptado: true } });
+    const rechazados = await prisma.servicio.count({ where: { turno_id: turno.id, aceptado: false } });
 
     let pausaActualInicio: Date | null = null;
     if (turno.estado === EstadoTurno.PAUSADO) {

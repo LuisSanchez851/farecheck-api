@@ -30,7 +30,7 @@ function partesDiaBogota(instanteMedianoche: Date): { fecha: string; dia: string
 }
 
 // Solo los viajes aceptados cuentan como ingreso/km/tiempo reales del balance.
-function whereConductorAceptados(conductorId: string, desde: Date, hasta?: Date): Prisma.ViajeWhereInput {
+function whereConductorAceptados(conductorId: string, desde: Date, hasta?: Date): Prisma.ServicioWhereInput {
   return {
     aceptado: true,
     turno: { conductor_id: conductorId },
@@ -50,8 +50,8 @@ export async function getBalanceDia(req: Request, res: Response): Promise<void> 
     const campos = { _sum: { valor_cop: true, km_recorrido: true, tiempo_total_min: true }, _count: true } as const;
 
     const [hoy, ayer] = await Promise.all([
-      prisma.viaje.aggregate({ where: whereConductorAceptados(req.conductor_id, inicioHoy, inicioManana), ...campos }),
-      prisma.viaje.aggregate({ where: whereConductorAceptados(req.conductor_id, inicioAyer, inicioHoy), ...campos }),
+      prisma.servicio.aggregate({ where: whereConductorAceptados(req.conductor_id, inicioHoy, inicioManana), ...campos }),
+      prisma.servicio.aggregate({ where: whereConductorAceptados(req.conductor_id, inicioAyer, inicioHoy), ...campos }),
     ]);
 
     const totalHoy = hoy._sum.valor_cop ?? 0;
@@ -100,7 +100,7 @@ export async function getBalanceSemana(req: Request, res: Response): Promise<voi
              COUNT(*)::int                               AS viajes,
              COALESCE(SUM(v.km_recorrido), 0)::float8    AS km_total,
              COALESCE(SUM(v.tiempo_total_min), 0)::int   AS tiempo_total_min
-      FROM viajes v
+      FROM servicios v
       JOIN turnos t ON t.id = v.turno_id
       WHERE t.conductor_id = ${req.conductor_id}
         AND v.aceptado = true
