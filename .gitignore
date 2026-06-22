@@ -2,7 +2,6 @@ node_modules/
 dist/
 .env
 *.env.local
-prisma/migrations/
 
 # Config Android — no pertenece al backend (lo usa solo la app)
 google-services.json
