@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 import authRoutes       from './routes/auth.routes';
 import conductorRoutes  from './routes/conductor.routes';
 import turnosRoutes     from './routes/turnos.routes';
-import viajesRoutes     from './routes/viajes.routes';
+import viajesRoutes     from './routes/servicios.routes';
 import analisisRoutes   from './routes/analisis.routes';
 import balanceRoutes    from './routes/balance.routes';
 import suscripcionRoutes from './routes/suscripcion.routes';
