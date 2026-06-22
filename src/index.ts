@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 import authRoutes       from './routes/auth.routes';
 import conductorRoutes  from './routes/conductor.routes';
 import turnosRoutes     from './routes/turnos.routes';
-import viajesRoutes     from './routes/servicios.routes';
+import serviciosRoutes  from './routes/servicios.routes';
 import analisisRoutes   from './routes/analisis.routes';
 import balanceRoutes    from './routes/balance.routes';
 import suscripcionRoutes from './routes/suscripcion.routes';
@@ -87,7 +87,7 @@ app.use('/api/v1', suscripcionMiddleware);
 // ── Rutas privadas ─────────────────────────────────────────────────────────────
 app.use('/api/v1/conductor', conductorRoutes);
 app.use('/api/v1/turnos',    turnosRoutes);
-app.use('/api/v1/viajes',    viajesRoutes);
+app.use('/api/v1/servicios', serviciosRoutes);
 app.use('/api/v1/analisis',  analisisLimiter, analisisRoutes);
 app.use('/api/v1/balance',   balanceRoutes);
 
